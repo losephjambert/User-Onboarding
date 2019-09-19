@@ -1,25 +1,65 @@
 import React from 'react';
 import { withFormik, Form, Field } from 'formik';
 import axios from 'axios';
+import * as Yup from 'yup';
 
-const OnboardingForm = ({ values }) => (
+function validateEmail(value) {
+  let error;
+  if (!value) {
+    error = 'Email is required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+    error = 'Invalid email address';
+  }
+  return error;
+}
+
+const OnboardingForm = ({ values, errors, touched }) => (
   <Form>
     <div>
       <label htmlFor='name'>Name</label>
-      <Field id='name' type='text' name='name' value={values.name} />
+      <Field
+        id='name'
+        type='text'
+        name='name'
+        value={values.name}
+        className={touched.name && errors.name && 'input-error'}
+      />
+      {touched.name && errors.name && <p>{errors.name}</p>}
     </div>
     <div>
       <label htmlFor='email'>Email</label>
-      <Field id='email' type='text' name='email' value={values.email} />
+      <Field
+        id='email'
+        type='text'
+        name='email'
+        value={values.email}
+        className={touched.email && errors.email && 'input-error'}
+        validate={validateEmail}
+      />
+      {touched.email && errors.email && <p>{errors.email}</p>}
     </div>
     <div>
       <div>
         <label htmlFor='password'>Password</label>
-        <Field id='password' type='text' name='password' value={values.password} />
+        <Field
+          id='password'
+          type='text'
+          name='password'
+          value={values.password}
+          className={touched.password && errors.password && 'input-error'}
+        />
+        {touched.password && errors.password && <p>{errors.password}</p>}
       </div>
       <div>
         <label htmlFor='repeatPassword'>Repeat Password</label>
-        <Field id='repeatPassword' type='text' name='repeatPassword' value={values.repeatPassword} />
+        <Field
+          id='repeatPassword'
+          type='text'
+          name='repeatPassword'
+          value={values.repeatPassword}
+          className={touched.repeatPassword && errors.repeatPassword && 'input-error'}
+        />
+        {touched.repeatPassword && errors.repeatPassword && <p>{errors.repeatPassword}</p>}
       </div>
     </div>
     <div>
@@ -42,6 +82,9 @@ export default withFormik({
       terms: terms || false,
     };
   },
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required('Please provide a name for your account'),
+  }),
   handleSubmit(values) {
     console.log(values);
   },
