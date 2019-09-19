@@ -1,11 +1,14 @@
 import React from 'react';
+import OnboardingForm from './components/OnboardingForm';
 
 function App() {
   return (
     <div>
-      <header>header</header>
-      <main>main</main>
-      <footer>footer</footer>
+      <header></header>
+      <main>
+        <OnboardingForm />
+      </main>
+      <footer></footer>
     </div>
   );
 }
