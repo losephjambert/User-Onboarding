@@ -4,19 +4,15 @@ import axios from "axios";
 import * as Yup from "yup";
 import FormikOnboardingForm from "./Formik.OnboardingForm";
 
-const validateEmail = value => {
-  let error;
-  if (!value) {
-    error = "Email is required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Invalid email address";
-  }
-  return error;
-};
-
 const FormikOnboardingFormContainer = ({ users, addUser }) => (
   <Formik
-    initialValues={{ name: "", email: "" }}
+    initialValues={{
+      name: "",
+      email: "",
+      password: "",
+      repeatPassword: "",
+      terms: false
+    }}
     onSubmit={(values, actions) => {
       axios
         .post("https://reqres.in/api/users", values)
@@ -32,7 +28,19 @@ const FormikOnboardingFormContainer = ({ users, addUser }) => (
       name: Yup.string().required("Please provide a name for your account"),
       email: Yup.string()
         .email("not a properly formatted email")
-        .required("an email address is required")
+        .required("an email address is required"),
+      password: Yup.string()
+        .min(12 | "Pass word must be at least 12 characters")
+        .required("please enter a valid password"),
+      repeatPassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
+      terms: Yup.bool()
+        .oneOf([true])
+        .required(
+          "You must agree to our terms of service before you can create an account"
+        )
     })}
     render={props => <FormikOnboardingForm {...props} users={users} />}
   />
