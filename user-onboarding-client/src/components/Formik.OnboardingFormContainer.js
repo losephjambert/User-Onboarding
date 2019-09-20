@@ -14,11 +14,15 @@ const FormikOnboardingFormContainer = ({ users, addUser }) => (
       terms: false,
     }}
     onSubmit={(values, actions) => {
+      const { setSubmitting, resetForm } = actions;
+      setSubmitting(true);
       axios
         .post('https://reqres.in/api/users', values)
         .then(response => {
           console.log(response.data);
           addUser(response.data);
+          resetForm('');
+          setSubmitting(false);
         })
         .catch(error => {
           console.error('There was an error submitting your form.', error);
