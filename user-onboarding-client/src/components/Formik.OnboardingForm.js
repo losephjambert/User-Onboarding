@@ -9,14 +9,38 @@ const FormikOnboardingForm = ({
 }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.name}
-        name="name"
-      />
-      {errors.name && <div id="feedback">{errors.name}</div>}
+      <div>
+        <label htmlFor="name">Name: </label>
+        <input
+          id="name"
+          type="text"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.name}
+          name="name"
+        />
+        {errors.name && (
+          <p style={{ display: "inline" }} className="error">
+            {errors.name}
+          </p>
+        )}
+      </div>
+      <div>
+        <label htmlFor="email">email: </label>
+        <input
+          id="email"
+          type="text"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
+          name="email"
+        />
+        {errors.email && (
+          <p style={{ display: "inline" }} className="error">
+            {errors.email}
+          </p>
+        )}
+      </div>
       <button type="submit">Submit</button>
     </form>
   );
