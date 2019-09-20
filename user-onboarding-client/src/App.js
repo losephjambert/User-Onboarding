@@ -1,22 +1,21 @@
-import React, { useState } from "react";
-import OnboardingForm from "./components/OnboardingForm";
-import FormikOnboardingFormContainer from "./components/Formik.OnboardingFormContainer";
+import React, { useState } from 'react';
+import FormikOnboardingFormContainer from './components/Formik.OnboardingFormContainer';
+import UsersList from './components/UsersList';
 
 function App() {
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const addUser = user => {
-    setUsers(user);
+    setUsers([...users, user]);
   };
   return (
     <div>
       <header></header>
       <main>
-        <h2>withFormik form</h2>
-        <OnboardingForm />
-        <div>
-          <h2>Formik form</h2>
+        <section>
+          <h2>Add a new user</h2>
           <FormikOnboardingFormContainer users={users} addUser={addUser} />
-        </div>
+        </section>
+        <UsersList users={users} />
       </main>
       <footer></footer>
     </div>
